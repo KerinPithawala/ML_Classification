@@ -23,7 +23,7 @@ def getDataset(dataset_name):
         data = datasets.load_iris()
     if dataset_name == 'Breast Cancer':
         data = datasets.load_breast_cancer()
-    if dataset_name == 'Wine Dataset':
+    if dataset_name == 'Boston House Dataset':
         data = datasets.load_boston()
     x = data.data
     y = data.target
