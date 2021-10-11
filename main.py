@@ -8,23 +8,22 @@ from sklearn.metrics import accuracy_score
 from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import plot_confusion_matrix
 
-st.title("Exploring Different Classifiers")
 
+st.title("Exploring different Machine Learning Classifiers")
 
-st.write("""
-    ## Select any dataset and then see which classifier is best!
-""")
-dataset_name = st.sidebar.selectbox("Select Dataset", ("Iris","Breast Cancer","Digits"))
+dataset_name = st.sidebar.selectbox("Select Dataset", ("Iris","Breast Cancer","Wine Dataset"))
 classifier_name = st.sidebar.selectbox("Select Classifier", ("KNN","SVM","Random Forest"))
+metrics ='Confusion Matrix'
 
 def getDataset(dataset_name):
     if dataset_name == 'Iris':
         data = datasets.load_iris()
     if dataset_name == 'Breast Cancer':
         data = datasets.load_breast_cancer()
-    if dataset_name == 'Digits':
-        data = datasets.load_digits()
+    if dataset_name == 'Wine Dataset':
+        data = datasets.load_wine()
     x = data.data
     y = data.target
     return x,y
@@ -66,6 +65,13 @@ classifier.fit(x_train,y_train)
 y_pred = classifier.predict(x_test)
 acc = accuracy_score(y_test,y_pred)
 
+def plot_metrics(metrics_list):
+        if 'Confusion Matrix' in metrics_list:
+            st.subheader("Confusion Matrix")
+            plot_confusion_matrix(classifier, x_test, y_test)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
+
 st.write("Classifier =",classifier_name)
 st.write("Accuracy =",str(acc*100)+"%")
 
@@ -80,4 +86,7 @@ plt.ylabel("Principal Component 2")
 plt.colorbar()
 st.set_option('deprecation.showPyplotGlobalUse', False)
 st.pyplot()
+plot_metrics('Confusion Matrix')
+
+
 
